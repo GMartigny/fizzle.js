@@ -1,0 +1,34 @@
+{
+  "name": "fizzle.js",
+  "version": "0.1.0",
+  "description": "Write any text with animated fizzly bubbles",
+  "main": "fizzle.js",
+  "scripts": {
+    "test": "eslint fizzle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GMartigny/fizzle.js.git"
+  },
+  "keywords": [
+    "canvas",
+    "frontend",
+    "rendering",
+    "animation"
+  ],
+  "author": "Guillaume Martigny <guillaume.martigny@gmail.com> (https://www.guillaume-martigny.fr)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GMartigny/fizzle.js/issues"
+  },
+  "homepage": "https://github.com/GMartigny/fizzle.js#readme",
+  "devDependencies": {
+    "eslint": "^4.18.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-config-airbnb-base": "^12.1.0"
+  },
+  "dependencies": {
+    "random-int": "^1.0.0",
+    "text-direction": "^1.0.0"
+  }
+}
