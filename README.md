@@ -39,6 +39,17 @@ Then, you can start to use it on your code :
 
 Since today's web browser don't support module requirements yet, you need to use a bundler like [webpack](https://webpack.js.org/) or [browserify](http://browserify.org/).
 
+## "But, I don't like modules and I just want to run this code on my customer's browser ..."
+
+Ok, I got you. If you want to go old-school, just load the script with [unpkg](https://unpkg.com/) or [jsdelivr](https://www.jsdelivr.com/).
+
+```html
+    <script src="https://unpkg.com/fizzle.js"></script>
+    <!-- or -->
+    <script src="https://cdn.jsdelivr.net/npm/fizzle.js"></script>
+```
+
+
 ## Documentation
 
 ### Fizzle
