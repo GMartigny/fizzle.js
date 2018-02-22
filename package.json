@@ -6,6 +6,8 @@
   "files": [
     "dist/"
   ],
+  "unpkg": "dist/fizzle.min.js",
+  "jsdelivr": "dist/fizzle.min.js",
   "scripts": {
     "test": "eslint fizzle.js",
     "prepublishOnly": "webpack"
