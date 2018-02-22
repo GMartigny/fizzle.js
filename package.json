@@ -1,10 +1,14 @@
 {
   "name": "fizzle.js",
   "version": "1.0.0",
-  "description": "Write any text with animated fizzly bubbles",
+  "description": "Write any text in a canvas with fizzly bubbles.",
   "main": "fizzle.js",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
-    "test": "eslint fizzle.js"
+    "test": "eslint fizzle.js",
+    "prepublishOnly": "webpack"
   },
   "repository": {
     "type": "git",
@@ -23,9 +27,14 @@
   },
   "homepage": "https://github.com/GMartigny/fizzle.js#readme",
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.40",
+    "@babel/preset-env": "^7.0.0-beta.40",
+    "babel-loader": "^8.0.0-beta.0",
     "eslint": "^4.18.0",
+    "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "eslint-config-airbnb-base": "^12.1.0"
+    "uglifyjs-webpack-plugin": "^1.2.0",
+    "webpack": "^3.11.0"
   },
   "dependencies": {
     "text-direction": "^1.0.0"
