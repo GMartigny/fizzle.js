@@ -1,6 +1,6 @@
 {
   "name": "fizzle.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Write any text in a canvas with fizzly bubbles.",
   "main": "fizzle.js",
   "files": [
@@ -9,8 +9,9 @@
   "unpkg": "dist/fizzle.min.js",
   "jsdelivr": "dist/fizzle.min.js",
   "scripts": {
-    "test": "eslint fizzle.js",
-    "prepublishOnly": "webpack"
+    "lint": "eslint *.js",
+    "build": "webpack",
+    "prepublishOnly": "npm run lint && npm run build"
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,13 @@
 import getDirection from "text-direction";
 
 const fullCircle = Math.PI * 2;
-const { random, floor, sqrt, abs, max } = Math;
+const {
+    random,
+    floor,
+    sqrt,
+    abs,
+    max,
+} = Math;
 const plusOrMinus = () => Math.sign(random() - 0.5);
 
 /**

@@ -1,4 +1,9 @@
 # Fizzle.js
+[![dependencies Status](https://david-dm.org/GMartigny/fizzle.js/status.svg)](https://david-dm.org/GMartigny/fizzle.js)
+[![devDependencies Status](https://david-dm.org/GMartigny/fizzle.js/dev-status.svg)](https://david-dm.org/GMartigny/fizzle.js?type=dev)
+
+![Sample Fizzle](https://media.giphy.com/media/7YCBAYKAP00yeyQwy5/giphy.gif)
+
 Write any text in a canvas with fizzly bubbles.
 
 # Installation
