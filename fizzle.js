@@ -1,7 +1,8 @@
-import random from "random-int";
 import getDirection from "text-direction";
 
 const fullCircle = Math.PI * 2;
+const { random, floor, sqrt, abs, max } = Math;
+const plusOrMinus = () => Math.sign(random() - 0.5);
 
 /**
  * Class for a single circle on a Fizzle
@@ -12,14 +13,16 @@ class Bubble {
      * Bubble constructor
      * @param {Number} x - Horizontal position
      * @param {Number} y - Vertical position
+     * @param {String} color - Color string
      */
-    constructor (x, y) {
+    constructor (x, y, color) {
         this.x = x;
         this.y = y;
+        this.color = color;
         this.diffX = 0;
         this.diffY = 0;
-        this.speedX = random(10, 100) / 100;
-        this.speedY = 1 - this.speedX;
+        this.speedX = ((random() / 2) + 0.25) * plusOrMinus();
+        this.speedY = (1 - abs(this.speedX)) * plusOrMinus();
     }
 
     /**
@@ -29,7 +32,12 @@ class Bubble {
      * @return {Bubble} Itself
      */
     render (ctx, radius) {
-        ctx.arc(this.x + this.diffX, this.y + this.diffY, radius, 0, fullCircle);
+        const x = this.x + this.diffX;
+        const y = this.y + this.diffY;
+        ctx.beginPath();
+        ctx.fillStyle = this.color;
+        ctx.arc(x, y, radius, 0, fullCircle);
+        ctx.fill();
         return this;
     }
 
@@ -40,13 +48,15 @@ class Bubble {
      * @return {Bubble} Itself
      */
     move (speed, freedom) {
-        this.diffX += this.speedX * speed;
-        this.diffY += this.speedY * speed;
+        if (freedom > 0) {
+            this.diffX += this.speedX * speed;
+            this.diffY += this.speedY * speed;
+        }
 
-        if ((this.diffX > freedom && this.speedX > 0) || (this.diffX < freedom && this.speedX < 0)) {
+        if ((this.diffX > freedom && this.speedX > 0) || (this.diffX < -freedom && this.speedX < 0)) {
             this.speedX *= -1;
         }
-        if ((this.diffY > freedom && this.speedY > 0) || (this.diffY < freedom && this.speedY < 0)) {
+        if ((this.diffY > freedom && this.speedY > 0) || (this.diffY < -freedom && this.speedY < 0)) {
             this.speedY *= -1;
         }
 
@@ -57,15 +67,17 @@ class Bubble {
 /**
  * @typedef {Object} FizzleOptions
  * @prop {String} [font="sans-serif"] - Font to use. Can be anything as long as it's installed on client computer.
- * @prop {Number} [fontSize=10] - Size of the text in pixel.
- * @prop {String} [align="start"] - Text horizontal alignment. Can be read from Fizzle.alignments.
+ * @prop {Number} [fontSize=200] - Size of the text in pixel.
+ * @prop {Boolean} [bold=true] - Should the text be bold (I advise you to use bold).
+ * @prop {Boolean} [italic=false] - Should the text be italic.
+ * @prop {String} [align=Fizzle.alignments.start] - Text horizontal alignment. Can be read from Fizzle.alignments.
  * Values "start" and "end" are relative to computer settings.
  * @prop {Array<String>} [colors=["#31ffb7", "#ffb031", "#c1ff31", "#7931ff"]] - Set of color to choose from randomly.
- * @prop {Number} [size=5] - Radius of the bubbles.
- * @prop {Number} [density=0.5] - Ratio between 0 and 1 for bubbles' density (relative to fontSize).
- * Can go higher than 1 for extreme density, can induce lag, use at your own risk (0 means no bubbles)
- * @prop {Number} [speed=0.5] - Speed of movements of bubbles in pixels (0 means no movement).
- * @prop {Number} [freedom=10] - Bounds for bubbles movements in pixels (0 means no movement).
+ * @prop {Number} [density=1] - Ratio for bubbles' density relative to fontSize.
+ It can go higher than 1 for extreme density, can induce lag, use at your own risk (0 means no bubbles)
+ * @prop {Number} [size=1] - Radius of the bubbles relative to fontSize (0 means no bubbles).
+ * @prop {Number} [speed=1] - Speed of movements of bubbles relative to fontSize (0 means no movement).
+ * @prop {Number} [freedom=1] - Bounds for bubbles movements relative to fontSize (0 means no movement).
  */
 
 /**
@@ -82,21 +94,28 @@ export default class Fizzle {
         const lines = Array.isArray(text) ? text.map(str => str.toString()) : [text.toString()];
         const mergedOptions = Object.assign(Fizzle.defaultOptions, options);
 
-        this.bubbles = {};
-        this.size = mergedOptions.size;
-        this.speed = mergedOptions.speed;
-        this.freedom = mergedOptions.freedom;
-
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
-        ctx.fillStyle = "#000";
-        ctx.font = `${mergedOptions.fontSize}px ${mergedOptions.font}`;
-        ctx.textAlign = mergedOptions.align;
-        ctx.textBaseline = "top";
-        const textWidth = lines.reduce((max, line) => Math.max(max, ctx.measureText(line).width), 0);
-        const textHeight = (lines.length + 0.2) * mergedOptions.fontSize;
+        const font = `${mergedOptions.bold ? "bold" : ""} ${mergedOptions.italic ? "italic" : ""}
+                      ${mergedOptions.fontSize}px ${mergedOptions.font}`;
+        ctx.font = font;
+        const textWidth = lines.reduce((current, line) => max(current, floor(ctx.measureText(line).width)), 0);
+        const textHeight = floor((lines.length + 0.2) * mergedOptions.fontSize);
         canvas.width = textWidth;
         canvas.height = textHeight;
+
+        this.bubbles = [];
+        this.size = mergedOptions.size * (mergedOptions.fontSize / 25);
+        this.speed = mergedOptions.speed * (mergedOptions.fontSize / 600);
+        this.freedom = mergedOptions.freedom * (mergedOptions.fontSize / 30);
+        this.width = textWidth;
+        this.height = textHeight;
+
+        ctx.fillStyle = "#000";
+        ctx.textAlign = mergedOptions.align;
+        ctx.textBaseline = "top";
+        ctx.font = font;
+
         const textDirection = getDirection();
         let position = 0;
         if (mergedOptions.align === Fizzle.alignments.right ||
@@ -110,19 +129,20 @@ export default class Fizzle {
         lines.forEach((line, n) => ctx.fillText(line, position, n * mergedOptions.fontSize));
         const imgData = ctx.getImageData(0, 0, textWidth, textHeight).data;
 
-        let space = 0;
-        const colorLength = mergedOptions.colors.length - 1;
-        for (let i = 3, l = imgData.length; i < l; i += 4) {
-            space -= +(imgData[i] === 0);
-            if (space < 0) {
-                const color = mergedOptions.colors[random(0, colorLength)];
-                if (!this.bubbles[color]) {
-                    this.bubbles[color] = [];
-                }
-                this.bubbles[color].push(new Bubble((i / 4) % textWidth, (i / 4) / textWidth));
-                space = mergedOptions.fontSize * (1 / mergedOptions.density);
+        const space = (mergedOptions.fontSize / 1e5) * (1 / mergedOptions.density);
+        let counter = space / 2;
+        const jump = 0.05 / sqrt(imgData.length);
+        const colorLength = mergedOptions.colors.length;
+        for (let i = 0, l = imgData.length / 4; i < l; ++i) {
+            counter -= (imgData[(i * 4) + 3] / 255) * jump;
+            if (counter < 0) {
+                const color = mergedOptions.colors[floor(random() * colorLength)];
+                this.bubbles.push(new Bubble(i % textWidth, floor(i / textWidth), color));
+                counter = (random() + 1) * space;
             }
         }
+
+        this.bubbles.sort(() => (random() * 2) - 1);
     }
 
     /**
@@ -131,14 +151,7 @@ export default class Fizzle {
      * @return {Fizzle} Itself
      */
     render (ctx) {
-        Object.keys(this.bubbles).forEach((color) => {
-            ctx.fillStyle = color;
-            ctx.beginPath();
-
-            this.bubbles[color].forEach(bubble => bubble.move(this.speed, this.freedom).render(ctx, this.size));
-
-            ctx.fill();
-        });
+        this.bubbles.forEach(bubble => bubble.move(this.speed, this.freedom).render(ctx, this.size));
         return this;
     }
 
@@ -149,13 +162,15 @@ export default class Fizzle {
     static get defaultOptions () {
         return {
             font: "sans-serif",
-            fontSize: 10,
+            fontSize: 200,
+            bold: true,
+            italic: false,
             align: Fizzle.alignments.start,
             colors: ["#31ffb7", "#ffb031", "#c1ff31", "#7931ff"],
-            size: 5,
-            density: 0.5,
-            speed: 0.5,
-            freedom: 10,
+            density: 1,
+            size: 1,
+            speed: 1,
+            freedom: 1,
         };
     }
 

@@ -20,7 +20,7 @@ Then, you can start to use it on your code :
 ```js
     const text = "Hello world";
     const options = {
-        font: "cursive",
+        font: "monospace",
         fontSize: 42,
         colors: ["red", "green", "blue"]
     };
@@ -55,16 +55,22 @@ type: ``FizzleOptions``<br>
 
 Returned object will expose :
 
-**bubbles** - 
-type: ``Object``
+**bubbles** - Array of all the bubbles.<br>
+type: ``Array``
 
-**size** - Bubbles current radius, can be dynamically edited (see FizzleOptions).
+**size** - Bubbles current radius, can be dynamically edited (see FizzleOptions).<br>
 type: ``Number``
 
-**speed** - Bubbles current speed, can be dynamically edited (see FizzleOptions).
+**speed** - Bubbles current speed, can be dynamically edited (see FizzleOptions).<br>
 type: ``Number``
 
-**freedom** - Bubbles current bounds, can be dynamically edited (see FizzleOptions).
+**freedom** - Bubbles current bounds, can be dynamically edited (see FizzleOptions).<br>
+type: ``Number``
+
+**width** - Total width.<br>
+type: ``Number``
+
+**height** - Total height.<br>
 type: ``Number``
 
 
@@ -75,13 +81,15 @@ default:
 ```js
 options = {
     font: "sans-serif",
-    fontSize: 10,
+    fontSize: 200,
+    bold: true,
+    italic: false,
     align: Fizzle.alignments.start,
     colors: ["#31ffb7", "#ffb031", "#c1ff31", "#7931ff"],
-    size: 5,
-    density: 0.5,
-    speed: 0.5,
-    freedom: 10,
+    density: 1,
+    size: 1,
+    speed: 1,
+    freedom: 1,
 }
 ```
 
@@ -93,7 +101,15 @@ default: ``"sans-serif"``
 
 **[fontSize]** - Size of the text in pixel.<br>
 type: ``Number``<br>
-default: ``10``
+default: ``200``
+
+**[bold]** - Should the text be bold (I advise you to use bold).<br>
+type: ``Boolean``<br>
+default: ``true``
+
+**[italic]** - Should the text be italic.<br>
+type: ``Boolean``<br>
+default: ``false``
 
 **[align]** - Text horizontal alignment. Can be read from ``Fizzle.alignments``.
 Values ``start`` and ``end`` are relative to computer settings.<br>
@@ -104,22 +120,22 @@ default: ``Fizzle.alignments.start``
 type: ``Array<String>``<br>
 default: ``["#31ffb7", "#ffb031", "#c1ff31", "#7931ff"]``
 
-**[size]** - Radius of the bubbles.<br>
+**[density]** - Ratio for bubbles' density relative to fontSize.
+It can go higher than 1 for extreme density, can induce lag, use at your own risk (0 means no bubbles).<br>
 type: ``Number``<br>
-default: ``5``
+default: ``1``
 
-**[density]** - Ratio between 0 and 1 for bubbles' density (relative to fontSize).
-Can go higher than 1 for extreme density, can induce lag, use at your own risk (0 means no bubbles).<br>
+**[size]** - Radius of the bubbles relative to fontSize (0 means no bubbles).<br>
 type: ``Number``<br>
-default: ``0.5``
+default: ``1``
 
-**[speed]** - Speed of movements of bubbles in pixels (0 means no movement).<br>
+**[speed]** - Speed of movements of bubbles relative to fontSize (0 means no movement).<br>
 type: ``Number``<br>
-default: ``0.5``
+default: ``1``
 
-**[freedom]** - Bounds for bubbles movements in pixels (0 means no movement).<br>
+**[freedom]** - Bounds for bubbles movements relative to fontSize (0 means no movement).<br>
 type: ``Number``<br>
-default: ``10``
+default: ``1``
 
 
 ## License

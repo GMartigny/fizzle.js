@@ -1,6 +1,6 @@
 {
   "name": "fizzle.js",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Write any text with animated fizzly bubbles",
   "main": "fizzle.js",
   "scripts": {
@@ -28,7 +28,6 @@
     "eslint-config-airbnb-base": "^12.1.0"
   },
   "dependencies": {
-    "random-int": "^1.0.0",
     "text-direction": "^1.0.0"
   }
 }

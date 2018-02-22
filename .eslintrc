@@ -4,23 +4,24 @@
         "browser": true
     },
     rules: {
-        require-jsdoc: ["error", {
+        require-jsdoc: [error, {
             require: {
                FunctionDeclaration: true,
                MethodDefinition: true,
                ClassDeclaration: true
             }
         }],
-        max-len: ["error", {
+        max-len: [error, {
             code: 120
         }],
-        brace-style: ["error", "stroustrup"],
-        quotes: ["error", "double"],
-        valid-jsdoc: ["error", {
+        no-plusplus: off,
+        brace-style: [error, "stroustrup"],
+        quotes: [error, "double"],
+        valid-jsdoc: [error, {
             requireReturn: false,
             requireReturnDescription: false
         }],
-        indent: ["error", 4],
-        space-before-function-paren: ["error", "always"]
+        indent: [error, 4],
+        space-before-function-paren: [error, "always"]
     }
 }
