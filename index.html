@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fizzle.js</title>
+    <style>
+        body {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="fizzle"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
+    <script src="https://unpkg.com/fizzle.js"></script>
+    <script>
+        window.addEventListener("load", function() {
+            const canvas = document.getElementById("fizzle");
+            const ctx = canvas.getContext("2d");
+
+            const margin = 20;
+
+            let fizzle;
+            function makeFizzle() {
+                fizzle = new Fizzle(options.text, options);
+
+                canvas.width = fizzle.width + 2 * margin;
+                canvas.height = fizzle.height + 2 * margin;
+            }
+
+            const gui = new dat.GUI();
+            let options = {
+                text: "Fizzle.js",
+                density: 1
+            };
+
+            makeFizzle();
+
+            gui.add(options, "text").onChange(makeFizzle);
+            gui.add(options, "density", 0.1, 3).onChange(makeFizzle);
+            const dynamicFolder = gui.addFolder("Dynamic");
+            dynamicFolder.add(fizzle, "size", 0.01, 3);
+            dynamicFolder.add(fizzle, "speed", 0, 3);
+            dynamicFolder.add(fizzle, "freedom", 0, 3);
+            dynamicFolder.open();
+
+            function loop() {
+                requestAnimationFrame(loop);
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                ctx.save();
+                ctx.translate(margin, margin);
+                fizzle.render(ctx);
+                ctx.restore();
+            }
+            loop();
+        });
+    </script>
+</body>
+</html>
