@@ -31,7 +31,7 @@ Then, you can start to use it on your code :
     };
     // Instantiate a new Fizzle
     let myFyzzle = new Fizzle(text, options);
-    let ctx = myCanvas.getContext("2d");
+    const ctx = myCanvas.getContext("2d");
     
     // Function run each frame
     function loop () {
@@ -69,24 +69,39 @@ type: ``Array<String>\|String``
 **[options]** - Rendering options<br>
 type: ``FizzleOptions``<br>
 
-Returned object will expose :
+Returned object will expose (see FizzleOptions) :
 
-**bubbles** - Array of all the bubbles.<br>
+**bubbles** - Array of all bubbles.<br>
 type: ``Array``
 
-**size** - Bubbles current radius, can be dynamically edited (see FizzleOptions).<br>
+**text** - Text used.<br>
+type: ``String``
+
+**font** - Font used.<br>
+type: ``String``
+
+**fontSize** - Font-size used.<br>
 type: ``Number``
 
-**speed** - Bubbles current speed, can be dynamically edited (see FizzleOptions).<br>
+**bold** - Is text bold.<br>
+type: ``Boolean``
+
+**italic** - Is text italic.<br>
+type: ``Boolean``
+
+**size** - Bubbles' size used.<br>
 type: ``Number``
 
-**freedom** - Bubbles current bounds, can be dynamically edited (see FizzleOptions).<br>
+**speed** - Bubbles' speed used.<br>
 type: ``Number``
 
-**width** - Total width.<br>
+**freedom** - Bubbles' freedom used.<br>
 type: ``Number``
 
-**height** - Total height.<br>
+**width** - Total width (readonly).<br>
+type: ``Number``
+
+**height** - Total height (readonly).<br>
 type: ``Number``
 
 
