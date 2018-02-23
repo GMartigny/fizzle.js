@@ -203,6 +203,22 @@ export default class Fizzle {
     }
 
     /**
+     * Change font-size at runtime (trigger a rebuild).
+     * @param {Number} fontSize - New value for font-size
+     */
+    set fontSize (fontSize) {
+        this._options.fontSize = fontSize;
+        this.build();
+    }
+    /**
+     * Get current font-size
+     * @return {Number}
+     */
+    get fontSize () {
+        return this._options.fontSize;
+    }
+
+    /**
      * Change if the font is bold at runtime (trigger a rebuild).
      * @param {Boolean} bold - New value for bold
      */
@@ -235,19 +251,19 @@ export default class Fizzle {
     }
 
     /**
-     * Change font-size at runtime (trigger a rebuild).
-     * @param {Number} fontSize - New value for font-size
+     * Change text alignment at runtime (trigger a rebuild).
+     * @param {String} align - New value for alignment
      */
-    set fontSize (fontSize) {
-        this._options.fontSize = fontSize;
+    set align (align) {
+        this._options.align = align;
         this.build();
     }
     /**
-     * Get current font-size
-     * @return {Number}
+     * Get current alignment
+     * @return {String}
      */
-    get fontSize () {
-        return this._options.fontSize;
+    get align () {
+        return this._options.align;
     }
 
     /**
