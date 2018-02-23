@@ -15,6 +15,9 @@
             code: 120
         }],
         no-plusplus: off,
+        no-underscore-dangle: [error, {
+            allowAfterThis: true
+        }],
         brace-style: [error, "stroustrup"],
         quotes: [error, "double"],
         valid-jsdoc: [error, {

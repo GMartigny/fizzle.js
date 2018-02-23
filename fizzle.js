@@ -93,57 +93,76 @@ class Bubble {
 export default class Fizzle {
     /**
      * Fizzle constructor
-     * @param {Array<String>|String} text -
-     * @param {FizzleOptions} options -
+     * @param {Array<String>|String} text - Any string
+     * @param {FizzleOptions} options - Specific options
      */
     constructor (text, options) {
-        const lines = Array.isArray(text) ? text.map(str => str.toString()) : [text.toString()];
-        const mergedOptions = Object.assign(Fizzle.defaultOptions, options);
+        this._options = Object.assign(Fizzle.defaultOptions, options);
 
+        this.bubbles = [];
+
+        this.text = text;
+    }
+
+    /**
+     * Return image data according to current options.
+     * @return {Array}
+     */
+    getImageData () {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
-        const font = `${mergedOptions.bold ? "bold" : ""} ${mergedOptions.italic ? "italic" : ""}
-                      ${mergedOptions.fontSize}px ${mergedOptions.font}`;
+        const font = `${this._options.bold ? "bold" : ""} ${this._options.italic ? "italic" : ""}
+                      ${this._options.fontSize}px ${this._options.font}`;
         ctx.font = font;
-        const textWidth = lines.reduce((current, line) => max(current, floor(ctx.measureText(line).width)), 0);
-        const textHeight = floor((lines.length + 0.2) * mergedOptions.fontSize);
+
+        const textWidth = this._options.text.reduce((m, line) => max(m, floor(ctx.measureText(line).width)), 0);
+        const textHeight = floor((this._options.text.length + 0.2) * this._options.fontSize);
         canvas.width = textWidth;
         canvas.height = textHeight;
 
-        this.bubbles = [];
-        this.size = mergedOptions.size * (mergedOptions.fontSize / 25);
-        this.speed = mergedOptions.speed * (mergedOptions.fontSize / 600);
-        this.freedom = mergedOptions.freedom * (mergedOptions.fontSize / 30);
         this.width = textWidth;
         this.height = textHeight;
 
-        ctx.fillStyle = "#000";
-        ctx.textAlign = mergedOptions.align;
-        ctx.textBaseline = "top";
-        ctx.font = font;
+        let imgData = [];
 
-        const textDirection = getDirection();
-        let position = 0;
-        if (mergedOptions.align === Fizzle.alignments.right ||
-            (textDirection === "rtl" && mergedOptions.align === Fizzle.alignments.start) ||
-            (textDirection === "ltr" && mergedOptions.align === Fizzle.alignments.end)) {
-            position = textWidth;
-        }
-        else if (mergedOptions.align === Fizzle.alignments.center) {
-            position = textWidth / 2;
-        }
-        lines.forEach((line, n) => ctx.fillText(line, position, n * mergedOptions.fontSize));
-        const imgData = ctx.getImageData(0, 0, textWidth, textHeight).data;
+        if (this.width && this.height) {
+            ctx.fillStyle = "#000";
+            ctx.textAlign = this._options.align;
+            ctx.textBaseline = "top";
+            ctx.font = font;
 
-        const space = (mergedOptions.fontSize / 1e5) * (1 / mergedOptions.density);
+            const textDirection = getDirection();
+            let position = 0;
+            if (this._options.align === Fizzle.alignments.right ||
+                (textDirection === "rtl" && this._options.align === Fizzle.alignments.start) ||
+                (textDirection === "ltr" && this._options.align === Fizzle.alignments.end)) {
+                position = this.width;
+            }
+            else if (this._options.align === Fizzle.alignments.center) {
+                position = this.width / 2;
+            }
+            this._options.text.forEach((line, n) => ctx.fillText(line, position, n * this._options.fontSize));
+            imgData = ctx.getImageData(0, 0, this.width, this.height).data;
+        }
+
+        return imgData;
+    }
+
+    /**
+     * Add bubbles according to current options.
+     */
+    build () {
+        this.bubbles = [];
+        const imgData = this.getImageData();
+        const space = (this._options.fontSize / 1e5) * (1 / this._options.density);
         let counter = space / 2;
-        const jump = 0.05 / sqrt(imgData.length);
-        const colorLength = mergedOptions.colors.length;
+        const jump = 0.08 / sqrt(imgData.length);
+        const colorLength = this._options.colors.length;
         for (let i = 0, l = imgData.length / 4; i < l; ++i) {
             counter -= (imgData[(i * 4) + 3] / 255) * jump;
             if (counter < 0) {
-                const color = mergedOptions.colors[floor(random() * colorLength)];
-                this.bubbles.push(new Bubble(i % textWidth, floor(i / textWidth), color));
+                const color = this._options.colors[floor(random() * colorLength)];
+                this.bubbles.push(new Bubble(i % this.width, floor(i / this.width), color));
                 counter = (random() + 1) * space;
             }
         }
@@ -152,17 +171,135 @@ export default class Fizzle {
     }
 
     /**
-     * Render everything in a drawing context
+     * Change text at runtime (trigger a rebuild).
+     * @param {String} text - Any string
+     */
+    set text (text) {
+        this._options.text = Array.isArray(text) ? text.map(str => str.toString()) : [text.toString().split(/\n/g)];
+        this.build();
+    }
+
+    /**
+     * Get current text.
+     * @return {String}
+     */
+    get text () {
+        return this._options.text.join("\n");
+    }
+
+    /**
+     * Change font-size at runtime (trigger a rebuild).
+     * @param {Number} fontSize - New value for font-size
+     */
+    set fontSize (fontSize) {
+        this._options.fontSize = fontSize;
+        this.build();
+    }
+
+    /**
+     * Get current font-size
+     * @return {Number}
+     */
+    get fontSize () {
+        return this._options.fontSize;
+    }
+
+    /**
+     * Change density at runtime (trigger a rebuild).
+     * @param {Number} density - New value for density
+     */
+    set density (density) {
+        this._options.density = density;
+        this.build();
+    }
+
+    /**
+     * Get current density
+     * @return {Number}
+     */
+    get density () {
+        return this._options.density;
+    }
+
+    /**
+     * Change bubbles' speed at runtime
+     * @param {Number} speed - New value for bubbles' speed
+     */
+    set speed (speed) {
+        this._options.speed = speed;
+    }
+    /**
+     * Get current bubbles' speed
+     * @return {Number}
+     */
+    get speed () {
+        return this._options.speed;
+    }
+
+    /**
+     * Change bubbles' freedom at runtime
+     * @param {Number} freedom - New value for bubbles' freedom
+     */
+    set freedom (freedom) {
+        this._options.freedom = freedom;
+    }
+
+    /**
+     * Get current bubbles' freedom
+     * @return {Number}
+     */
+    get freedom () {
+        return this._options.freedom;
+    }
+
+    /**
+     * Change bubbles' size at runtime
+     * @param {Number} size - New value for bubbles' size
+     */
+    set size (size) {
+        this._options.size = size;
+    }
+    /**
+     * Get current bubbles' size
+     * @return {Number}
+     */
+    get size () {
+        return this._options.size;
+    }
+
+    /**
+     * Change bubbles' colors at runtime
+     * @param {Array<String>} colors - New value for bubbles' colors
+     */
+    set colors (colors) {
+        this._options.colors = colors;
+        const colorLength = colors.length;
+        // eslint-disable-next-line no-param-reassign, no-return-assign
+        this.bubbles.forEach(bubble => bubble.color = this._options.colors[floor(random() * colorLength)]);
+    }
+    /**
+     * Get current bubbles' colors
+     * @return {Array<String>}
+     */
+    get colors () {
+        return this._options.colors;
+    }
+
+    /**
+     * Render everything in a drawing context.
      * @param {CanvasRenderingContext2D} ctx - Drawing context
      * @return {Fizzle} Itself
      */
     render (ctx) {
-        this.bubbles.forEach(bubble => bubble.move(this.speed, this.freedom).render(ctx, this.size));
+        const speed = this.speed * (this.fontSize / 600);
+        const freedom = this.freedom * (this.fontSize / 30);
+        const size = this.size * (this.fontSize / 40);
+        this.bubbles.forEach(bubble => bubble.move(speed, freedom).render(ctx, size));
         return this;
     }
 
     /**
-     * Return the default options for a Fizzle
+     * Return the default options for a Fizzle.
      * @return {FizzleOptions}
      */
     static get defaultOptions () {
