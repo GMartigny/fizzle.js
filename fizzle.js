@@ -178,13 +178,60 @@ export default class Fizzle {
         this._options.text = Array.isArray(text) ? text.map(str => str.toString()) : [text.toString().split(/\n/g)];
         this.build();
     }
-
     /**
      * Get current text.
      * @return {String}
      */
     get text () {
         return this._options.text.join("\n");
+    }
+
+    /**
+     * Change font at runtime (trigger a rebuild).
+     * @param {String} font - New value for font
+     */
+    set font (font) {
+        this._options.font = font;
+        this.build();
+    }
+    /**
+     * Get the current font
+     * @return {String}
+     */
+    get font () {
+        return this._options.font;
+    }
+
+    /**
+     * Change if the font is bold at runtime (trigger a rebuild).
+     * @param {Boolean} bold - New value for bold
+     */
+    set bold (bold) {
+        this._options.bold = bold;
+        this.build();
+    }
+    /**
+     * Get whether font is bold
+     * @return {Boolean}
+     */
+    get bold () {
+        return this._options.bold;
+    }
+
+    /**
+     * Change if the font is italic at runtime (trigger a rebuild).
+     * @param {Boolean} italic - New value for italic
+     */
+    set italic (italic) {
+        this._options.italic = italic;
+        this.build();
+    }
+    /**
+     * Get whether font is italic
+     * @return {Boolean}
+     */
+    get italic () {
+        return this._options.italic;
     }
 
     /**
@@ -195,7 +242,6 @@ export default class Fizzle {
         this._options.fontSize = fontSize;
         this.build();
     }
-
     /**
      * Get current font-size
      * @return {Number}
