@@ -2,60 +2,86 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Fizzle.js</title>
+    <title>Fizzle.js playground</title>
     <style>
         body {
             background-color: #333;
         }
+        footer {
+            color: #FFF;
+        }
+        a {
+            color: #31ffb7;
+        }
+        a:visited {
+            color: #ffb031;
+        }
     </style>
 </head>
 <body>
-    <canvas id="fizzle"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
-    <script src="https://unpkg.com/fizzle.js"></script>
-    <script>
-        window.addEventListener("load", function() {
-            const canvas = document.getElementById("fizzle");
-            const ctx = canvas.getContext("2d");
+<canvas id="fizzle"></canvas>
+<footer>For more fine tune, see <a href="https://github.com/GMartigny/fizzle.js#documentation">the documentation</a>.</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
+<script src="https://unpkg.com/fpsmeter@0.3.1/dist/fpsmeter.min.js"></script>
+<script src="https://unpkg.com/fizzle.js"></script>
+<script>
+    window.addEventListener("load", function() {
+        const canvas = document.getElementById("fizzle");
+        const ctx = canvas.getContext("2d");
 
-            const margin = 20;
+        const margin = 40;
 
-            let fizzle;
-            function makeFizzle() {
-                fizzle = new Fizzle(options.text, options);
+        let fizzle = new Fizzle("Fizzle.js");
 
-                canvas.width = fizzle.width + 2 * margin;
-                canvas.height = fizzle.height + 2 * margin;
-            }
-
-            const gui = new dat.GUI();
-            let options = {
-                text: "Fizzle.js",
-                density: 1
-            };
-
-            makeFizzle();
-
-            gui.add(options, "text").onChange(makeFizzle);
-            gui.add(options, "density", 0.1, 3).onChange(makeFizzle);
-            const dynamicFolder = gui.addFolder("Dynamic");
-            dynamicFolder.add(fizzle, "size", 0.01, 3);
-            dynamicFolder.add(fizzle, "speed", 0, 3);
-            dynamicFolder.add(fizzle, "freedom", 0, 3);
-            dynamicFolder.open();
-
-            function loop() {
-                requestAnimationFrame(loop);
-
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                ctx.save();
-                ctx.translate(margin, margin);
-                fizzle.render(ctx);
-                ctx.restore();
-            }
-            loop();
+        const meter  = new FPSMeter({
+            interval: 200,
+            graph: true
         });
-    </script>
+
+        function setCanvasSize() {
+            canvas.width = fizzle.width + 2 * margin;
+            canvas.height = fizzle.height + 2 * margin;
+        }
+        setCanvasSize();
+
+        const gui = new dat.GUI();
+        let colors = ["#31ffb7", "#ffb031", "#c1ff31", "#7931ff"];
+
+        gui.add(fizzle, "text").onChange(setCanvasSize);
+        gui.add(fizzle, "font", ["serif", "sans-serif", "monospace"]).onChange(setCanvasSize);
+        gui.add(fizzle, "fontSize", 20, 400).onChange(setCanvasSize);
+        gui.add(fizzle, "bold");
+        gui.add(fizzle, "italic");
+        gui.add(fizzle, "density", 0.1, 3);
+        const dynamicFolder = gui.addFolder("Dynamic");
+        dynamicFolder.add(fizzle, "size", 0.1, 3);
+        dynamicFolder.add(fizzle, "speed", 0, 3);
+        dynamicFolder.add(fizzle, "freedom", 0, 3);
+
+        function changeColor() {
+            fizzle.colors = colors;
+        }
+
+        dynamicFolder.addColor(colors, "0").onChange(changeColor);
+        dynamicFolder.addColor(colors, "1").onChange(changeColor);
+        dynamicFolder.addColor(colors, "2").onChange(changeColor);
+        dynamicFolder.addColor(colors, "3").onChange(changeColor);
+
+        dynamicFolder.open();
+
+        function loop() {
+            meter.tick();
+            requestAnimationFrame(loop);
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.save();
+            ctx.translate(margin, margin);
+            fizzle.render(ctx);
+            ctx.restore();
+        }
+        loop();
+    });
+</script>
 </body>
 </html>
