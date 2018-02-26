@@ -63,45 +63,45 @@ Main animation class for the animation.
 
     new Fizzle(text, [options]);
 
-**text** - String to use or array of string for multi-lines<br>
+**text** - String to use or array of string for multi-lines  
 type: ``Array<String>\|String``
 
-**[options]** - Rendering options<br>
-type: ``FizzleOptions``<br>
+**[options]** - Rendering options  
+type: ``FizzleOptions``  
 
 Returned object will expose (see FizzleOptions) :
 
-**bubbles** - Array of all bubbles.<br>
+**bubbles** - Array of all bubbles.  
 type: ``Array``
 
-**text** - Text used.<br>
+**text** - Text used.  
 type: ``String``
 
-**font** - Font used.<br>
+**font** - Font used.  
 type: ``String``
 
-**fontSize** - Font-size used.<br>
+**fontSize** - Font-size used.  
 type: ``Number``
 
-**bold** - Is text bold.<br>
+**bold** - Is text bold.  
 type: ``Boolean``
 
-**italic** - Is text italic.<br>
+**italic** - Is text italic.  
 type: ``Boolean``
 
-**size** - Bubbles' size used.<br>
+**size** - Bubbles' size used.  
 type: ``Number``
 
-**speed** - Bubbles' speed used.<br>
+**speed** - Bubbles' speed used.  
 type: ``Number``
 
-**freedom** - Bubbles' freedom used.<br>
+**freedom** - Bubbles' freedom used.  
 type: ``Number``
 
-**width** - Total width (readonly).<br>
+**width** - Total width (readonly).  
 type: ``Number``
 
-**height** - Total height (readonly).<br>
+**height** - Total height (readonly).  
 type: ``Number``
 
 
@@ -126,46 +126,46 @@ options = {
 
 #### Params
 
-**[font]** - Font to use. Can be anything as long as it's installed on client computer.<br>
-type: ``String``<br>
+**[font]** - Font to use. Can be anything as long as it's installed on client computer.  
+type: ``String``  
 default: ``"sans-serif"``
 
-**[fontSize]** - Size of the text in pixel.<br>
-type: ``Number``<br>
+**[fontSize]** - Size of the text in pixel.  
+type: ``Number``  
 default: ``200``
 
-**[bold]** - Should the text be bold (I advise you to use bold).<br>
-type: ``Boolean``<br>
+**[bold]** - Should the text be bold (I advise you to use bold).  
+type: ``Boolean``  
 default: ``true``
 
-**[italic]** - Should the text be italic.<br>
-type: ``Boolean``<br>
+**[italic]** - Should the text be italic.  
+type: ``Boolean``  
 default: ``false``
 
 **[align]** - Text horizontal alignment. Can be read from ``Fizzle.alignments``.
-Values ``start`` and ``end`` are relative to computer settings.<br>
-type: ``String``<br>
+Values ``start`` and ``end`` are relative to computer settings.  
+type: ``String``  
 default: ``Fizzle.alignments.start``
 
-**[colors]** - Set of color to choose from randomly.<br>
-type: ``Array<String>``<br>
+**[colors]** - Set of color to choose from randomly.  
+type: ``Array<String>``  
 default: ``["#31ffb7", "#ffb031", "#c1ff31", "#7931ff"]``
 
 **[density]** - Ratio for bubbles' density relative to fontSize.
-It can go higher than 1 for extreme density, can induce lag, use at your own risk (0 means no bubbles).<br>
-type: ``Number``<br>
+It can go higher than 1 for extreme density, can induce lag, use at your own risk (0 means no bubbles).  
+type: ``Number``  
 default: ``1``
 
-**[size]** - Radius of the bubbles relative to fontSize (0 means no bubbles).<br>
-type: ``Number``<br>
+**[size]** - Radius of the bubbles relative to fontSize (0 means no bubbles).  
+type: ``Number``  
 default: ``1``
 
-**[speed]** - Speed of movements of bubbles relative to fontSize (0 means no movement).<br>
-type: ``Number``<br>
+**[speed]** - Speed of movements of bubbles relative to fontSize (0 means no movement).  
+type: ``Number``  
 default: ``1``
 
-**[freedom]** - Bounds for bubbles movements relative to fontSize (0 means no movement).<br>
-type: ``Number``<br>
+**[freedom]** - Bounds for bubbles movements relative to fontSize (0 means no movement).  
+type: ``Number``  
 default: ``1``
 
 
