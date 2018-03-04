@@ -1,2 +1,6 @@
+.idea/
+.cache/
+
 .eslintrc
 webpack.config.js
+test.js

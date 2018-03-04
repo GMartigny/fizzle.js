@@ -10,8 +10,9 @@
   "jsdelivr": "dist/fizzle.min.js",
   "scripts": {
     "lint": "eslint fizzle.js",
+    "test": "jest-webpack",
     "build": "webpack",
-    "prepublishOnly": "npm run lint && npm run build"
+    "prepublishOnly": "npm run lint && npm test && npm run build"
   },
   "repository": {
     "type": "git",
@@ -34,13 +35,15 @@
     "@babel/preset-env": "^7.0.0-beta.40",
     "babel-loader": "^8.0.0-beta.0",
     "uglifyjs-webpack-plugin": "^1.2.2",
-    "webpack": "^3.11.0"
+    "webpack": "^3.11.0",
+    "eslint": "^4.18.1",
+    "eslint-plugin-import": "^2.9.0",
+    "jest": "^22.4.2",
+    "jest-webpack": "^0.4.0",
+    "@gmartigny/eslint-config": "^1.0.1"
   },
   "dependencies": {
     "text-direction": "^1.0.2"
   },
-  "peerDependencies": {
-    "eslint": "^4.18.1",
-    "@gmartigny/eslint-config": "^1.0.1"
-  }
+  "peerDependencies": {}
 }
