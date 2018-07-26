@@ -38,7 +38,7 @@
   "devDependencies": {
     "@gmartigny/eslint-config": "^1.2.1",
     "ava": "^0.25.0",
-    "eslint": "^4.19.1",
+    "eslint": "^5.2.0",
     "eslint-plugin-import": "^2.13.0",
     "esm": "^3.0.72",
     "webpack": "^4.16.2",
