@@ -162,6 +162,7 @@ export default class Fizzle {
         this._options.text = Array.isArray(text) ? text.map(str => str.toString()) : [text.toString().split(/\n/g)];
         this.build();
     }
+
     /**
      * Get current text.
      * @return {String}
@@ -178,6 +179,7 @@ export default class Fizzle {
         this._options.font = font;
         this.build();
     }
+
     /**
      * Get the current font
      * @return {String}
@@ -194,6 +196,7 @@ export default class Fizzle {
         this._options.fontSize = fontSize;
         this.build();
     }
+
     /**
      * Get current font-size
      * @return {Number}
@@ -210,6 +213,7 @@ export default class Fizzle {
         this._options.bold = bold;
         this.build();
     }
+
     /**
      * Get whether font is bold
      * @return {Boolean}
@@ -226,6 +230,7 @@ export default class Fizzle {
         this._options.italic = italic;
         this.build();
     }
+
     /**
      * Get whether font is italic
      * @return {Boolean}
@@ -242,6 +247,7 @@ export default class Fizzle {
         this._options.align = align;
         this.build();
     }
+
     /**
      * Get current alignment
      * @return {String}
@@ -274,6 +280,7 @@ export default class Fizzle {
     set speed (speed) {
         this._options.speed = speed;
     }
+
     /**
      * Get current bubbles' speed
      * @return {Number}
@@ -305,6 +312,7 @@ export default class Fizzle {
     set size (size) {
         this._options.size = size;
     }
+
     /**
      * Get current bubbles' size
      * @return {Number}
@@ -323,6 +331,7 @@ export default class Fizzle {
         // eslint-disable-next-line no-param-reassign, no-return-assign
         this.bubbles.forEach(bubble => bubble.color = this._options.colors[floor(random() * colorLength)]);
     }
+
     /**
      * Get current bubbles' colors
      * @return {Array<String>}
