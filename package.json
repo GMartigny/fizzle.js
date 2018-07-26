@@ -10,9 +10,14 @@
   "jsdelivr": "dist/fizzle.min.js",
   "scripts": {
     "lint": "eslint fizzle.js",
-    "test": "jest-webpack",
-    "build": "webpack",
-    "prepublishOnly": "npm run lint && npm test && npm run build"
+    "test": "ava",
+    "build": "webpack --mode=development",
+    "prepublishOnly": "npm run lint && npm test && webpack --mode=production"
+  },
+  "ava": {
+    "require": [
+      "esm"
+    ]
   },
   "repository": {
     "type": "git",
@@ -32,10 +37,10 @@
   "homepage": "https://github.com/GMartigny/fizzle.js#readme",
   "devDependencies": {
     "@gmartigny/eslint-config": "^1.2.1",
+    "ava": "^0.25.0",
     "eslint": "^4.19.1",
     "eslint-plugin-import": "^2.13.0",
-    "jest": "^22.4.4",
-    "jest-webpack": "^0.4.0",
+    "esm": "^3.0.72",
     "webpack": "^4.16.2",
     "webpack-command": "^0.4.1"
   },

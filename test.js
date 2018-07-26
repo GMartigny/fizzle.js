@@ -1,41 +1,43 @@
-/* global jest test expect */
-
+import test from "ava";
 import Fizzle from "./fizzle";
 
-test("Default options", () => {
+test("Default options", (t) => {
     const defaultOpts = Fizzle.defaultOptions;
 
-    expect(defaultOpts.font).toBe("sans-serif");
-    expect(defaultOpts.fontSize).toBe(200);
-    expect(defaultOpts.bold).toBe(true);
-    expect(defaultOpts.italic).toBe(false);
-    expect(defaultOpts.align).toBe("start");
-    expect(defaultOpts.colors).toBeDefined();
-    expect(defaultOpts.density).toBe(1);
-    expect(defaultOpts.size).toBe(1);
-    expect(defaultOpts.speed).toBe(1);
-    expect(defaultOpts.freedom).toBe(1);
+    t.is(defaultOpts.font, "sans-serif");
+    t.is(defaultOpts.fontSize, 200);
+    t.is(defaultOpts.bold, true);
+    t.is(defaultOpts.italic, false);
+    t.is(defaultOpts.align, "start");
+    t.true(Array.isArray(defaultOpts.colors));
+    t.is(defaultOpts.density, 1);
+    t.is(defaultOpts.size, 1);
+    t.is(defaultOpts.speed, 1);
+    t.is(defaultOpts.freedom, 1);
 
     const aligns = Fizzle.alignments;
-    expect(aligns.left).toBe("left");
-    expect(aligns.center).toBe("center");
-    expect(aligns.right).toBe("right");
-    expect(aligns.start).toBe("start");
-    expect(aligns.end).toBe("end");
+    t.is(aligns.left, "left");
+    t.is(aligns.center, "center");
+    t.is(aligns.right, "right");
+    t.is(aligns.start, "start");
+    t.is(aligns.end, "end");
 });
 
-test("Creation", () => {
+test("Creation", (t) => {
     // Overrides to avoid using canvas methods on node
-    Fizzle.prototype.getImageData = jest.fn(() => []);
+    Fizzle.prototype.getImageData = () => {
+        t.pass();
+        return [];
+    };
+    t.plan(5);
 
     let text = "Test";
     const fizzle = new Fizzle(text);
 
-    expect(fizzle.bubbles.length).toBe(0);
-    expect(fizzle.text).toBe(text);
-    expect(Fizzle.prototype.getImageData.mock.calls.length).toBe(1);
+    t.is(fizzle.bubbles.length, 0);
+    t.is(fizzle.text, text);
 
     text = "Other";
     fizzle.text = text;
-    expect(fizzle.text).toBe(text);
+    t.is(fizzle.text, text);
 });
