@@ -70,6 +70,8 @@ class Bubble {
     }
 }
 
+const optionsKey = Symbol("_options");
+
 /**
  * Class that render some text using dynamic bubbles
  * @class
@@ -81,7 +83,7 @@ export default class Fizzle {
      * @param {FizzleOptions} [options] - Specific options
      */
     constructor (text, options) {
-        this._options = Object.assign(Fizzle.defaultOptions, options);
+        this[optionsKey] = Object.assign(Fizzle.defaultOptions, options);
 
         this.bubbles = [];
 
@@ -93,14 +95,15 @@ export default class Fizzle {
      * @return {Array}
      */
     getImageData () {
+        const options = this[optionsKey];
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
-        const font = `${this._options.bold ? "bold" : ""} ${this._options.italic ? "italic" : ""}
-                      ${this._options.fontSize}px ${this._options.font}`;
+        const font = `${options.bold ? "bold" : ""} ${options.italic ? "italic" : ""}
+                      ${options.fontSize}px ${options.font}`;
         ctx.font = font;
 
-        const textWidth = this._options.text.reduce((m, line) => max(m, floor(ctx.measureText(line).width)), 0);
-        const textHeight = floor((this._options.text.length + 0.2) * this._options.fontSize);
+        const textWidth = options.text.reduce((m, line) => max(m, floor(ctx.measureText(line).width)), 0);
+        const textHeight = floor((options.text.length + 0.2) * options.fontSize);
         canvas.width = textWidth;
         canvas.height = textHeight;
 
@@ -111,21 +114,21 @@ export default class Fizzle {
 
         if (this.width && this.height) {
             ctx.fillStyle = "#000";
-            ctx.textAlign = this._options.align;
+            ctx.textAlign = options.align;
             ctx.textBaseline = "top";
             ctx.font = font;
 
             const textDirection = getDirection();
             let position = 0;
-            if (this._options.align === Fizzle.alignments.right ||
-                (textDirection === "rtl" && this._options.align === Fizzle.alignments.start) ||
-                (textDirection === "ltr" && this._options.align === Fizzle.alignments.end)) {
+            if (options.align === Fizzle.alignments.right ||
+                (textDirection === "rtl" && options.align === Fizzle.alignments.start) ||
+                (textDirection === "ltr" && options.align === Fizzle.alignments.end)) {
                 position = this.width;
             }
-            else if (this._options.align === Fizzle.alignments.center) {
+            else if (options.align === Fizzle.alignments.center) {
                 position = this.width / 2;
             }
-            this._options.text.forEach((line, n) => ctx.fillText(line, position, n * this._options.fontSize));
+            options.text.forEach((line, n) => ctx.fillText(line, position, n * options.fontSize));
             imgData = ctx.getImageData(0, 0, this.width, this.height).data;
         }
 
@@ -138,14 +141,14 @@ export default class Fizzle {
     build () {
         this.bubbles = [];
         const imgData = this.getImageData();
-        const space = (this._options.fontSize / 1e5) * (1 / this._options.density);
+        const space = (this[optionsKey].fontSize / 1e5) * (1 / this[optionsKey].density);
         let counter = space / 2;
         const jump = 0.08 / sqrt(imgData.length);
-        const colorLength = this._options.colors.length;
+        const colorLength = this[optionsKey].colors.length;
         for (let i = 0, l = imgData.length / 4; i < l; ++i) {
             counter -= (imgData[(i * 4) + 3] / 255) * jump;
             if (counter < 0) {
-                const color = this._options.colors[floor(random() * colorLength)];
+                const color = this[optionsKey].colors[floor(random() * colorLength)];
                 this.bubbles.push(new Bubble(i % this.width, floor(i / this.width), color));
                 counter = (random() + 1) * space;
             }
@@ -159,7 +162,7 @@ export default class Fizzle {
      * @param {String} text - Any string
      */
     set text (text) {
-        this._options.text = Array.isArray(text) ? text.map(str => str.toString()) : [text.toString().split(/\n/g)];
+        this[optionsKey].text = Array.isArray(text) ? text.map(str => str.toString()) : [text.toString().split(/\n/g)];
         this.build();
     }
 
@@ -168,7 +171,7 @@ export default class Fizzle {
      * @return {String}
      */
     get text () {
-        return this._options.text.join("\n");
+        return this[optionsKey].text.join("\n");
     }
 
     /**
@@ -176,7 +179,7 @@ export default class Fizzle {
      * @param {String} font - New value for font
      */
     set font (font) {
-        this._options.font = font;
+        this[optionsKey].font = font;
         this.build();
     }
 
@@ -185,7 +188,7 @@ export default class Fizzle {
      * @return {String}
      */
     get font () {
-        return this._options.font;
+        return this[optionsKey].font;
     }
 
     /**
@@ -193,7 +196,7 @@ export default class Fizzle {
      * @param {Number} fontSize - New value for font-size
      */
     set fontSize (fontSize) {
-        this._options.fontSize = fontSize;
+        this[optionsKey].fontSize = fontSize;
         this.build();
     }
 
@@ -202,7 +205,7 @@ export default class Fizzle {
      * @return {Number}
      */
     get fontSize () {
-        return this._options.fontSize;
+        return this[optionsKey].fontSize;
     }
 
     /**
@@ -210,7 +213,7 @@ export default class Fizzle {
      * @param {Boolean} bold - New value for bold
      */
     set bold (bold) {
-        this._options.bold = bold;
+        this[optionsKey].bold = bold;
         this.build();
     }
 
@@ -219,7 +222,7 @@ export default class Fizzle {
      * @return {Boolean}
      */
     get bold () {
-        return this._options.bold;
+        return this[optionsKey].bold;
     }
 
     /**
@@ -227,7 +230,7 @@ export default class Fizzle {
      * @param {Boolean} italic - New value for italic
      */
     set italic (italic) {
-        this._options.italic = italic;
+        this[optionsKey].italic = italic;
         this.build();
     }
 
@@ -236,7 +239,7 @@ export default class Fizzle {
      * @return {Boolean}
      */
     get italic () {
-        return this._options.italic;
+        return this[optionsKey].italic;
     }
 
     /**
@@ -244,7 +247,7 @@ export default class Fizzle {
      * @param {String} align - New value for alignment
      */
     set align (align) {
-        this._options.align = align;
+        this[optionsKey].align = align;
         this.build();
     }
 
@@ -253,7 +256,7 @@ export default class Fizzle {
      * @return {String}
      */
     get align () {
-        return this._options.align;
+        return this[optionsKey].align;
     }
 
     /**
@@ -261,7 +264,7 @@ export default class Fizzle {
      * @param {Number} density - New value for density
      */
     set density (density) {
-        this._options.density = density;
+        this[optionsKey].density = density;
         this.build();
     }
 
@@ -270,7 +273,7 @@ export default class Fizzle {
      * @return {Number}
      */
     get density () {
-        return this._options.density;
+        return this[optionsKey].density;
     }
 
     /**
@@ -278,7 +281,7 @@ export default class Fizzle {
      * @param {Number} speed - New value for bubbles' speed
      */
     set speed (speed) {
-        this._options.speed = speed;
+        this[optionsKey].speed = speed;
     }
 
     /**
@@ -286,7 +289,7 @@ export default class Fizzle {
      * @return {Number}
      */
     get speed () {
-        return this._options.speed;
+        return this[optionsKey].speed;
     }
 
     /**
@@ -294,7 +297,7 @@ export default class Fizzle {
      * @param {Number} freedom - New value for bubbles' freedom
      */
     set freedom (freedom) {
-        this._options.freedom = freedom;
+        this[optionsKey].freedom = freedom;
     }
 
     /**
@@ -302,7 +305,7 @@ export default class Fizzle {
      * @return {Number}
      */
     get freedom () {
-        return this._options.freedom;
+        return this[optionsKey].freedom;
     }
 
     /**
@@ -310,7 +313,7 @@ export default class Fizzle {
      * @param {Number} size - New value for bubbles' size
      */
     set size (size) {
-        this._options.size = size;
+        this[optionsKey].size = size;
     }
 
     /**
@@ -318,7 +321,7 @@ export default class Fizzle {
      * @return {Number}
      */
     get size () {
-        return this._options.size;
+        return this[optionsKey].size;
     }
 
     /**
@@ -326,10 +329,9 @@ export default class Fizzle {
      * @param {Array<String>} colors - New value for bubbles' colors
      */
     set colors (colors) {
-        this._options.colors = colors;
+        this[optionsKey].colors = colors;
         const colorLength = colors.length;
-        // eslint-disable-next-line no-param-reassign, no-return-assign
-        this.bubbles.forEach(bubble => bubble.color = this._options.colors[floor(random() * colorLength)]);
+        this.bubbles.forEach(bubble => bubble.color = this[optionsKey].colors[floor(random() * colorLength)]);
     }
 
     /**
@@ -337,7 +339,7 @@ export default class Fizzle {
      * @return {Array<String>}
      */
     get colors () {
-        return this._options.colors;
+        return this[optionsKey].colors;
     }
 
     /**
