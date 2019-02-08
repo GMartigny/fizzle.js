@@ -10,7 +10,7 @@
   "jsdelivr": "dist/fizzle.min.js",
   "scripts": {
     "lint": "eslint fizzle.js",
-    "test": "ava",
+    "test": "ava tests",
     "build": "webpack --mode=development",
     "prepublishOnly": "npm run lint && npm test && webpack --mode=production"
   },
@@ -36,15 +36,15 @@
   },
   "homepage": "https://github.com/GMartigny/fizzle.js#readme",
   "devDependencies": {
-    "@gmartigny/eslint-config": "^1.2.1",
-    "ava": "^0.25.0",
-    "eslint": "^5.2.0",
-    "eslint-plugin-import": "^2.13.0",
-    "esm": "^3.0.72",
-    "webpack": "^4.16.2",
-    "webpack-command": "^0.4.1"
+    "@gmartigny/eslint-config": "^1.2.3",
+    "ava": "^1.2.1",
+    "eslint": "^5.13.0",
+    "eslint-plugin-import": "^2.16.0",
+    "esm": "^3.2.4",
+    "webpack": "^4.29.3",
+    "webpack-cli": "^3.2.3"
   },
   "dependencies": {
-    "text-direction": "^1.1.0"
+    "text-direction": "^1.2.1"
   }
 }
