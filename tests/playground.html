@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Playground</title>
+</head>
+<body>
+<canvas id="wrapper" width="800" height="300"></canvas>
+<script src="../dist/fizzle.min.js"></script>
+<script>
+    const fizzle = new Fizzle("Hellow !");
+    const ctx = document.getElementById("wrapper").getContext("2d");
+
+    function render () {
+        requestAnimationFrame(render);
+
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        fizzle.render(ctx);
+    }
+    render();
+</script>
+</body>
+</html>
