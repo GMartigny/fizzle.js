@@ -35,6 +35,7 @@ Then, you can start to use it on your code :
     
     // Function run each frame
     function loop () {
+        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
         ctx.save();
         ctx.translate(x, y); // move to desired location
         myFyzzle.render(ctx); // draw it
