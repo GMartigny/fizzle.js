@@ -1,6 +1,8 @@
 # Fizzle.js
-[![dependencies Status](https://david-dm.org/GMartigny/fizzle.js/status.svg)](https://david-dm.org/GMartigny/fizzle.js)
-[![devDependencies Status](https://david-dm.org/GMartigny/fizzle.js/dev-status.svg)](https://david-dm.org/GMartigny/fizzle.js?type=dev)
+[![NPM Version](https://flat.badgen.net/npm/v/fizzle.js?icon=npm)](https://www.npmjs.com/package/fizzle.js)
+[![Dependencies update](https://flat.badgen.net/david/dev/gmartigny/fizzle.js?icon=npm)](https://david-dm.org/gmartigny/fizzle.js?type=dev)
+[![Inline docs](http://inch-ci.org/github/gmartigny/fizzle.js.svg?branch=master)](http://inch-ci.org/github/gmartigny/fizzle.js?style=flat)
+[![Support me on Patreon](https://flat.badgen.net/badge/become/a%20patron/F96753?icon=patreon)](https://www.patreon.com/gmartigny)
 
 ![Sample Fizzle](media/fizzle.gif)
 

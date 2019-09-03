@@ -1,5 +1,5 @@
 module.exports = {
-    entry: "./fizzle.js",
+    entry: "./src/fizzle.js",
     output: {
         filename: "fizzle.min.js",
         library: "Fizzle",

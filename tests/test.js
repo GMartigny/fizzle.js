@@ -1,5 +1,5 @@
 import test from "ava";
-import Fizzle from "../fizzle";
+import Fizzle from "..";
 
 test("Default options", (t) => {
     const defaultOpts = Fizzle.defaultOptions;

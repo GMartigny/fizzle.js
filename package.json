@@ -1,50 +1,53 @@
 {
-  "name": "fizzle.js",
-  "version": "1.3.2",
-  "description": "Write any text in a canvas with fizzly bubbles.",
-  "main": "fizzle.js",
-  "files": [
-    "dist/"
-  ],
-  "unpkg": "dist/fizzle.min.js",
-  "jsdelivr": "dist/fizzle.min.js",
-  "scripts": {
-    "lint": "eslint fizzle.js",
-    "test": "ava tests",
-    "build": "webpack --mode=development",
-    "prepublishOnly": "npm run lint && npm test && webpack --mode=production"
-  },
-  "ava": {
-    "require": [
-      "esm"
-    ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/GMartigny/fizzle.js.git"
-  },
-  "keywords": [
-    "canvas",
-    "frontend",
-    "rendering",
-    "animation"
-  ],
-  "author": "Guillaume Martigny <guillaume.martigny@gmail.com> (https://www.guillaume-martigny.fr)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/GMartigny/fizzle.js/issues"
-  },
-  "homepage": "https://github.com/GMartigny/fizzle.js#readme",
-  "devDependencies": {
-    "@gmartigny/eslint-config": "^1.2.3",
-    "ava": "^1.2.1",
-    "eslint": "^5.13.0",
-    "eslint-plugin-import": "^2.16.0",
-    "esm": "^3.2.4",
-    "webpack": "^4.29.3",
-    "webpack-cli": "^3.2.3"
-  },
-  "dependencies": {
-    "text-direction": "^1.2.1"
-  }
+    "name": "fizzle.js",
+    "version": "1.3.2",
+    "description": "Write any text in a canvas with fizzly bubbles.",
+    "main": "src/fizzle.js",
+    "files": [
+        "dist/"
+    ],
+    "unpkg": "dist/fizzle.min.js",
+    "jsdelivr": "dist/fizzle.min.js",
+    "scripts": {
+        "lint": "eslint src/**/*.js",
+        "test": "ava",
+        "play": "webpack --mode=development --watch",
+        "build": "webpack --mode=production",
+        "prepublishOnly": "npm run lint && npm test && npm run build"
+    },
+    "eslintConfig": {
+        "extends": "@gmartigny/eslint-config"
+    },
+    "ava": {
+        "require": [
+            "esm"
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/GMartigny/fizzle.js.git"
+    },
+    "keywords": [
+        "canvas",
+        "frontend",
+        "rendering",
+        "animation"
+    ],
+    "author": "GMartigny <guillaume.martigny@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/GMartigny/fizzle.js/issues"
+    },
+    "homepage": "https://github.com/GMartigny/fizzle.js#readme",
+    "devDependencies": {
+        "@gmartigny/eslint-config": "^1.2.3",
+        "ava": "^2.2.0",
+        "eslint": "^6.1.0",
+        "esm": "^3.2.4",
+        "webpack": "^4.36.1",
+        "webpack-cli": "^3.2.3"
+    },
+    "dependencies": {
+        "pencil.js": "^1.9.1"
+    }
 }

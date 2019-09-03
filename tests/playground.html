@@ -5,19 +5,22 @@
     <title>Playground</title>
 </head>
 <body>
-<canvas id="wrapper" width="800" height="300"></canvas>
+<canvas id="wrapper"></canvas>
 <script src="../dist/fizzle.min.js"></script>
 <script>
-    const fizzle = new Fizzle("Hellow !");
+    const timer = "init";
+    console.time(timer);
     const ctx = document.getElementById("wrapper").getContext("2d");
-
-    function render () {
-        requestAnimationFrame(render);
-
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        fizzle.render(ctx);
-    }
-    render();
+    const fizzle = new Fizzle("Hellow", ctx, {
+        // colors: ["red", "blue"],
+        // freedom: 0,
+        // radius: 2,
+        // density: 0.1,
+        speed: 1,
+    });
+    ctx.canvas.width = fizzle.width;
+    ctx.canvas.height = fizzle.height;
+    console.timeEnd(timer);
 </script>
 </body>
 </html>
